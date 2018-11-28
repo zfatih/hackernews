@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTopStoriesIds } from '../actions';
+import { fetchShowStories } from '../actions';
 import { protekloVrijeme } from '../actions/funkcije';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { Link } from 'react-router-dom';
 
-class TopStoriesList extends Component {
+class ShowList extends Component {
     renderList(){
-        if(!this.props.topStories){
-            return <div>nejma</div>;
+        if(!this.props.showStories || this.props.showStories.length === 0){
+            return <div className="center"><LoadingSpinner/></div>;
         }
         var ts = Math.round((new Date()).getTime() / 1000);
-        return this.props.topStories.map((story) => {
+        return this.props.showStories.map((story) => {
+            console.log(story);
             return (
-               // <li key={story.id} ><a href={story.url}>{story.title}</a></li>
                 <div className="row">
                     <div className="col m12 s12 l12">
                     <div className="card orange lighten-2">
@@ -21,7 +22,7 @@ class TopStoriesList extends Component {
                         </div>
                         <div className="card-action">
                             <p style={{color: 'white'}}>
-                                {story.score} pts | by {story.by} | {protekloVrijeme(ts-story.time)} ago | <Link to={"/Item/"+story.id} style={{color: 'white', textTransform: 'none'}} >{story.descendants} comments</Link> 
+                                {story.score} pts | by {story.by} | {protekloVrijeme(ts-story.time)} ago | <Link to={"/Item/"+story.id} style={{color: 'white', textTransform: 'none'}} >{story.descendants} comments</Link>
                             </p>
                         </div>
                     </div>
@@ -32,7 +33,7 @@ class TopStoriesList extends Component {
     }
 
     componentWillMount(){
-        this.props.fetchTopStoriesIds();
+        this.props.fetchShowStories();
     }
 
     render() {
@@ -47,15 +48,14 @@ class TopStoriesList extends Component {
 
 function mapStateToProps(state){
     return {
-        topStories: state.topStories,
-        topStoriesIds: state.topStoriesIds
+        showStories: state.showStories
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchTopStoriesIds: () => dispatch(fetchTopStoriesIds())
+        fetchShowStories: () => dispatch(fetchShowStories())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopStoriesList);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowList);

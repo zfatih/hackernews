@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTopStoriesIds } from '../actions';
+import { fetchNewestStoriesIds } from '../actions';
 import { protekloVrijeme } from '../actions/funkcije';
 import { Link } from 'react-router-dom';
 
-class TopStoriesList extends Component {
+class NewestStoriesList extends Component {
     renderList(){
-        if(!this.props.topStories){
+        if(!this.props.newestStories){
             return <div>nejma</div>;
         }
         var ts = Math.round((new Date()).getTime() / 1000);
-        return this.props.topStories.map((story) => {
+        return this.props.newestStories.map((story) => {
             return (
-               // <li key={story.id} ><a href={story.url}>{story.title}</a></li>
+                //<li key={story.id} ><a href={story.url}>{story.title}</a></li>
                 <div className="row">
                     <div className="col m12 s12 l12">
                     <div className="card orange lighten-2">
@@ -21,7 +21,7 @@ class TopStoriesList extends Component {
                         </div>
                         <div className="card-action">
                             <p style={{color: 'white'}}>
-                                {story.score} pts | by {story.by} | {protekloVrijeme(ts-story.time)} ago | <Link to={"/Item/"+story.id} style={{color: 'white', textTransform: 'none'}} >{story.descendants} comments</Link> 
+                                {story.score} pts | by {story.by} | {protekloVrijeme(ts-story.time)} ago | <Link to={"/Item/"+story.id} style={{color: 'white', textTransform: 'none'}} >{story.descendants} comments</Link>
                             </p>
                         </div>
                     </div>
@@ -32,7 +32,7 @@ class TopStoriesList extends Component {
     }
 
     componentWillMount(){
-        this.props.fetchTopStoriesIds();
+        this.props.fetchNewestStoriesIds();
     }
 
     render() {
@@ -47,15 +47,15 @@ class TopStoriesList extends Component {
 
 function mapStateToProps(state){
     return {
-        topStories: state.topStories,
-        topStoriesIds: state.topStoriesIds
+        newestStories: state.newestStories,
+        newestStoriesIds: state.newestStoriesIds
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchTopStoriesIds: () => dispatch(fetchTopStoriesIds())
+        fetchNewestStoriesIds: () => dispatch(fetchNewestStoriesIds())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopStoriesList);
+export default connect(mapStateToProps, mapDispatchToProps)(NewestStoriesList);

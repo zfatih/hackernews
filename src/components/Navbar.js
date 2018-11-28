@@ -4,7 +4,10 @@ import {Link, NavLink} from 'react-router-dom'
 const Navbar = () => {
     return (
         <nav className="orange" role="navigation">
-            <div className="nav-wrapper container"><Link id="logo-container" to="/" className="brand-logo">Hacker News</Link>
+            <div className="nav-wrapper container">
+            
+            <Link id="logo-container" to="/" className="brand-logo">Hacker News</Link>
+            
             <ul className="right hide-on-med-and-down">
                 <li><NavLink to="/newest">New</NavLink></li>
                 <li><NavLink to="/newcomments">Comments</NavLink></li>

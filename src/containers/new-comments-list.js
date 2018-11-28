@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTopStoriesIds } from '../actions';
+import { fetchNewComments } from '../actions';
 import { protekloVrijeme } from '../actions/funkcije';
 import { Link } from 'react-router-dom';
 
-class TopStoriesList extends Component {
+class NewCommentsList extends Component {
     renderList(){
-        if(!this.props.topStories){
+        if(!this.props.newComments){
             return <div>nejma</div>;
         }
         var ts = Math.round((new Date()).getTime() / 1000);
-        return this.props.topStories.map((story) => {
+        return this.props.newComments.map((comment) => {
             return (
-               // <li key={story.id} ><a href={story.url}>{story.title}</a></li>
                 <div className="row">
                     <div className="col m12 s12 l12">
                     <div className="card orange lighten-2">
                         <div className="card-content white-text">
-                        <span className="card-title"><a className="flow-text" href={story.url}>{story.title}</a></span>
+                        <span className="card-title"><p className="flow-text" dangerouslySetInnerHTML={{ __html: comment.text }}/></span>
                         </div>
                         <div className="card-action">
                             <p style={{color: 'white'}}>
-                                {story.score} pts | by {story.by} | {protekloVrijeme(ts-story.time)} ago | <Link to={"/Item/"+story.id} style={{color: 'white', textTransform: 'none'}} >{story.descendants} comments</Link> 
+                                by {comment.by} | {protekloVrijeme(ts-comment.time)} ago | <Link to={"/Item/"+comment.parent} style={{color: 'white', textTransform: 'none'}} >Article</Link>
                             </p>
                         </div>
                     </div>
@@ -32,7 +31,7 @@ class TopStoriesList extends Component {
     }
 
     componentWillMount(){
-        this.props.fetchTopStoriesIds();
+        this.props.fetchNewComments();
     }
 
     render() {
@@ -47,15 +46,14 @@ class TopStoriesList extends Component {
 
 function mapStateToProps(state){
     return {
-        topStories: state.topStories,
-        topStoriesIds: state.topStoriesIds
+        newComments: state.newComments
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchTopStoriesIds: () => dispatch(fetchTopStoriesIds())
+        fetchNewComments: () => dispatch(fetchNewComments())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopStoriesList);
+export default connect(mapStateToProps, mapDispatchToProps)(NewCommentsList);

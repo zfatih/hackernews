@@ -1,3 +1,17 @@
-.App {
-/*  text-align: center;*/
+a {
+    color: white;
+}
+
+a:hover {
+    color: grey;
+}
+
+.card {
+    animation-name: pojavljivanje;
+    animation-duration: 1s;
+}
+
+@keyframes pojavljivanje {
+    from { opacity: 0; }
+    to { opacity: 1;}
 }
